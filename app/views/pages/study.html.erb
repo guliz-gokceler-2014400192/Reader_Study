@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>OpenSeadragon HTML Overlay Demo</title>
+        <script src="https://cdn.jsdelivr.net/npm/openseadragon/build/openseadragon/openseadragon.min.js"></script>
+        <script src="openseadragon-html-overlay.js"></script>
+        <style type="text/css">
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+            }
+            .openseadragon1 {
+                width: 80%;
+                height: 80%;
+                margin-left: 5%;
+                margin-top: 0;
+            }
+            .card-body {
+                margin: 5%; /* Added */
+                float: none; /* Added */
+                margin-bottom: 25%; /* Added */
+
+            }
+        
+            @import url(https://fonts.googleapis.com/css?family=Work+Sans:300,600);
+
+            body{
+                font-size: 20px;
+                font-family: 'Work Sans', sans-serif;
+                color: #333;
+            font-weight: 300;
+            text-align: center;
+            background-color: #f8f6f0;
+            }
+            h1{
+            font-weight: 300;
+            margin: 0px;
+            padding: 10px;
+            font-size: 20px;
+            background-color: #444;
+            color: #fff;
+            }
+            .question{
+            font-size: 30px;
+            margin-bottom: 0px;
+            }
+         
+            button{
+                font-family: 'Work Sans', sans-serif !important;
+                font-size: 22px important;
+                background-color: #279;
+                color: #fff;
+                border: 0px;
+                border-radius: 3px;
+                padding: 20px;
+                cursor: pointer;
+                
+                
+                }
+            #next {
+                position: fixed; /* Fixed/sticky position */
+                bottom: 20px; /* Place the button at the bottom of the page */
+                right: 30px; /* Place the button 30px from the right */
+                z-index: 99; 
+                margin-bottom: 20px;
+                float: right;
+            }
+                button:hover{
+                    background-color: #38a;
+                }
+
+                .slide{
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                width: 100%;
+                z-index: 1;
+                opacity: 0;
+                transition: opacity 0.5s;
+                }
+                .active-slide{
+                opacity: 1;
+                z-index: 2;
+                }
+                .quiz-container{
+                position: relative;
+                height: 100px;
+                margin-top: 40px;
+                }
+
+                .form-group {
+                    font-family: 'Work Sans', sans-serif;
+                    position: fixed; /* Fixed/sticky position */
+                    top: 520px; /* Place the button at the bottom of the page */
+                    right: 30px; /* Place the button 30px from the right */
+                    z-index: 99; 
+                    font-size: 22px;
+                }
+
+                .form-row {
+                    position: fixed !import;
+                    margin: auto;
+                }
+
+                .form-group2 {
+                    width: 100%;
+                    margin-bottom: 10%;
+                }
+
+                #submit {
+                    font-family: 'Work Sans', sans-serif !important;
+                    font-size: 22px important;
+                    position: fixed;
+                    left: 45%;
+                    top:40%;
+                }
+               
+        </style>
+    </head>
+    <body>
+        <h1>Reader Study</h1>
+        <button id="next" class="btn btn-success btn-lg">Next Question</button>
+        <div class="quiz-container">
+            <div id="quiz">
+                <div class="slide">
+                    <div class="question"> Explain the image below into text box. </div>
+                    <div class="form-group">
+                        <ul style="list-style-type:none;">
+                            <li><label><input type="radio" name="disease0" value="gbm">GBM</label></li>
+                            <li><label><input type="radio" name="disease0" value="lgg">LGG</label></li>
+                            <li><label><input type="radio" name="disease0" value="luad">LUAD</label></li>
+                            <li><label><input type="radio" name="disease0" value="lusc">LUSC</label></li>
+                        </ul>
+                        <label for="comment">Comment:</label>
+                        <textarea style="overflow:auto;resize:none" class="form-control" rows="5" id="comment0"></textarea>
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="question"> Explain the image below into text box. </div>
+                    <div class="form-group ">
+                        <ul style="list-style-type:none;" >
+                            <li><label><input type="radio" name="disease1" value="gbm">GBM</label></li>
+                            <li><label><input type="radio" name="disease1" value="lgg">LGG</label></li>
+                            <li><label><input type="radio" name="disease1" value="luad">LUAD</label></li>
+                            <li><label><input type="radio" name="disease1" value="lusc">LUSC</label></li>
+                        </ul>
+                        <label for="comment">Comment:</label>
+                        <textarea style="overflow:auto;resize:none" class="form-control" rows="5" id="comment1"></textarea>
+                    </div>
+                </div>
+               
+                <div class="slide">
+                    <div class="question"> Before submit, please fill the form below:</div>
+                
+                </div>
+                <div class="form-group2">
+                <br><br><br><br><br>
+                    <div class="form-row">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-3">
+                            <label for="first_name">First Name</label>
+                            <input type="text" id="first_name" class="form-control" placeholder="First name">
+                        </div>
+                                                
+                        <div class="col-md-3">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" id="last_name" class="form-control" placeholder="Last name">
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+                </div>
+                <button  id="submit" method="post" class="btn btn-success btn-lg" value="save" >Submit Answers</button>
+            </div>
+        </div>
+        <div id="contentDiv0" class="openseadragon1" style= "display:none; position: relative;"></div>
+        <div id="contentDiv1" class="openseadragon1" style= "display:none; position: relative;"></div>
+
+        <script>
+
+
+        (function(){
+           
+            var start = Date.now();
+            function showSlide(n) {
+                start = Date.now();
+                
+                slides[currentSlide].classList.remove('active-slide');
+                slides[n].classList.add('active-slide');
+                currentSlide = n;
+                if(currentSlide === slides.length-1){
+                    nextButton.style.display = 'none';
+                    submitButton.style.display = 'inline-block';
+                    document.getElementsByClassName("form-group2")[0].style.display='inline-block';
+                }
+                else{
+                    nextButton.style.display = 'inline-block';
+                    submitButton.style.display = 'none';
+                    document.getElementsByClassName("form-group2")[0].style.display='none';
+
+                    let current_comment="comment"+currentSlide
+                    let input1 = document.getElementById(current_comment);
+                    let button = document.getElementById("next");
+                    button.disabled = true;
+                    input1.addEventListener("input", stateHandle);
+                    _name="disease"+currentSlide
+                    var requiredRadios = $(`input[name=${_name}]`);
+                    //requiredRadios.addEventListener("change", stateHandle);
+                    for (item=0; item<requiredRadios.length; item++) { 
+                        requiredRadios[item].addEventListener("change", stateHandle); 
+                    }
+                    
+                    function stateHandle() {
+                        var nbr_checked_radios = document.querySelectorAll(`input[name=${_name}]:checked`).length;
+                        if ( nbr_checked_radios === 0 || $.trim(input1.value).length === 0 || document.getElementById(current_comment).value === ""  ) {
+                            button.disabled = true;
+                        } else {
+                            button.disabled = false;
+                        }
+                    }
+
+                }
+
+                console.log(currentSlide)
+
+
+                /////////////////////
+                var number_of_slides_list=Array.from(Array(2).keys())
+                var itemsWithoutCurrent = number_of_slides_list.filter(function(x) { return x !== currentSlide; });
+                for(item in itemsWithoutCurrent){
+                    id_name="contentDiv"+item
+                    document.getElementById(id_name).style.display="none";
+                }
+                current_id="contentDiv"+currentSlide
+                document.getElementById(current_id).style.display="block";
+
+                var file_dirs=["foo_files/","fake_files/"]
+                var widths=["2000","5975"]
+                var heights=["2000","8759"]
+                var file_name="http://192.168.1.109:8000/"+file_dirs[currentSlide]
+                var _width=widths[currentSlide]
+                var _height=heights[currentSlide]
+
+                var tileSource = {
+                    Image: {
+                        xmlns: "http://schemas.microsoft.com/deepzoom/2008",
+                        Url: file_name,
+                        Format: "png",
+                        Overlap: "2",
+                        TileSize: "128",
+                        Size: {
+                            Width:  _width,
+                            Height: _height
+                        }
+                    }
+                };
+            
+                
+                var viewer = OpenSeadragon({
+                    id: current_id,
+                    prefixUrl: "https://cdn.jsdelivr.net/npm/openseadragon/build/openseadragon/images/",
+                    tileSources: [{
+                        tileSource: tileSource,
+                        width: _width
+                    }], 
+                    showNavigator:  true
+                });
+            
+            }
+
+            function showNextSlide() {
+                end=Date.now()
+                interval=end-start
+                interval=Math.floor(interval / 1000)
+                current_comment="comment"+currentSlide
+                var textToWrite = document.getElementById(current_comment).value;
+                comments=comments+textToWrite+" : "+interval+"\n"
+                console.log(comments)
+
+                showSlide(currentSlide + 1);
+                
+            }
+
+
+            // Variables
+            const quizContainer = document.getElementById('quiz');
+            const resultsContainer = document.getElementById('results');
+            const submitButton = document.getElementById('submit');
+            
+            var comments=""
+            // Pagination
+            const nextButton = document.getElementById("next");
+            const slides = document.querySelectorAll(".slide");
+            let currentSlide = 0;
+
+            // Show the first slide
+            showSlide(currentSlide);
+            
+            
+
+            // Event listeners
+            nextButton.addEventListener("click", showNextSlide);
+
+            //validate 
+            let input1 = document.getElementById("first_name");
+            let input2 = document.getElementById("last_name");
+            let button = document.getElementById("submit");
+            button.disabled = true;
+            input1.addEventListener("input", stateHandle);
+            input2.addEventListener("input", stateHandle);
+            function stateHandle() {
+                //var pattern=/^([a-zA-Z0-9])+([a-zA-Z0-9])+$/;
+                //result2=pattern.test(document.getElementById("first_name").value)
+                //result3=pattern.test(document.getElementById("last_name").value)
+                if ($.trim(input1.value).length === 0 || $.trim(input2.value).length === 0 || document.getElementById("first_name").value === "" || document.getElementById("last_name").value ==="" ) {
+                    button.disabled = true;
+                } else {
+                    button.disabled = false;
+                }
+            }
+
+            //comment validate
+    
+
+
+            function saveTextAsFile(){
+
+            var textFileAsBlob = new Blob([comments], {type:'text/plain'});
+            var fileNameToSaveAs = $.trim(document.getElementById('first_name').value)+"_"+$.trim(document.getElementById('last_name').value)+".txt";
+        
+            var downloadLink = document.createElement("a");
+            downloadLink.download = fileNameToSaveAs;
+            downloadLink.innerHTML = "Download File";
+            if (window.webkitURL != null)
+            {
+
+                downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+            }
+            else
+            {
+
+                downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+                downloadLink.onclick = destroyClickedElement;
+                downloadLink.style.display = "none";
+                document.body.appendChild(downloadLink);
+            }
+        
+            downloadLink.click();
+        }
+    
+        var button_sbmt = document.getElementById('submit');
+        button_sbmt.addEventListener('click', saveTextAsFile);
+
+        })();
+        </script>
+    </body>
+</html>
