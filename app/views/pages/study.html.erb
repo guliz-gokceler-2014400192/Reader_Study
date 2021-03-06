@@ -67,6 +67,15 @@
                 margin-bottom: 20px;
                 float: right;
             }
+
+            #break {
+                position: fixed; /* Fixed/sticky position */
+                top: 60px; /* Place the button at the bottom of the page */
+                right: 30px; /* Place the button 30px from the right */
+                z-index: 99; 
+                margin-bottom: 20px;
+                float: right;
+            }
                 button:hover{
                     background-color: #38a;
                 }
@@ -116,12 +125,23 @@
                     left: 45%;
                     top:40%;
                 }
+
+                .modal-dialog {
+                        width: 80%;
+                        height:90% !important;
+                }
+                
+                .modal-content {
+                    height: 100%;
+                    width: 100%;
+                }
                
         </style>
     </head>
     <body>
         <h1>Reader Study</h1>
         <button id="next" class="btn btn-success btn-lg">Sonraki Soru</button>
+        <button id="break" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">Mola</button>
         <div class="quiz-container">
             <div id="quiz">
                 <div class="slide">
@@ -177,13 +197,34 @@
         <div id="contentDiv0" class="openseadragon1" style= "display:none; position: relative;"></div>
         <div id="contentDiv1" class="openseadragon1" style= "display:none; position: relative;"></div>
 
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">!Mola!</h4>
+                </div>
+                <div class="modal-body">
+                <p>Devam etmek için lütfen "Devam" butonuna basın.</p>
+                </div>
+                <div class="modal-footer">
+                <button id="continue" class="btn btn-default" data-dismiss="modal">Devam</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
         <script>
 
 
         (function(){
            
             var start = Date.now();
+            var break_time=0;
+            var break_start=Date.now();
+            var break_end=Date.now();
+            var isBreak=false;
             function showSlide(n) {
+                isBreak=false;
                 start = Date.now();
                 
                 slides[currentSlide].classList.remove('active-slide');
@@ -192,11 +233,13 @@
                 if(currentSlide === slides.length-1){
                     nextButton.style.display = 'none';
                     submitButton.style.display = 'inline-block';
+                    breakButton.style.display = 'none';
                     document.getElementsByClassName("form-group2")[0].style.display='inline-block';
                 }
                 else{
                     nextButton.style.display = 'inline-block';
                     submitButton.style.display = 'none';
+                    breakButton.style.display = 'inline-block';
                     document.getElementsByClassName("form-group2")[0].style.display='none';
 
                     let current_comment="comment"+currentSlide
@@ -277,9 +320,16 @@
                 return h + ':' + m + ':' + s;
             }
 
+
             function showNextSlide() {
                 end=Date.now()
-                interval=end-start
+                if(isBreak===true){
+                    break_time=break_end-break_start
+                }
+                else{
+                    break_time=0
+                }
+                interval=end-start-break_time
                 interval=Math.floor(interval / 1000)
                 interval=secondsToTime(interval)
                 current_comment="comment"+currentSlide
@@ -292,6 +342,19 @@
                 
             }
 
+            
+            function giveBreak() {
+                break_start=Date.now()
+                isBreak=true;
+                
+            }
+
+            function finishBreak() {
+                break_end=Date.now()
+                isBreak=true;
+                
+            }
+
 
             // Variables
             const quizContainer = document.getElementById('quiz');
@@ -301,6 +364,8 @@
             var comments=""
             // Pagination
             const nextButton = document.getElementById("next");
+            const breakButton = document.getElementById("break");
+            const finishBreakButton = document.getElementById("continue");
             const slides = document.querySelectorAll(".slide");
             let currentSlide = 0;
 
@@ -311,6 +376,8 @@
 
             // Event listeners
             nextButton.addEventListener("click", showNextSlide);
+            breakButton.addEventListener("click", giveBreak);
+            finishBreakButton.addEventListener("click", finishBreak);
 
             //validate 
             let input1 = document.getElementById("first_name");
